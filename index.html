@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swetha Ramar — Business Analyst</title>
+<meta name="description" content="Six ledgers into one. Twenty AI agents taken apart to find where they break. A business analyst who works in the space between what finance needs and what software does.">
+<meta property="og:title" content="Swetha Ramar — Business Analyst">
+<meta property="og:description" content="Run the consolidation. Interrogate the agent. Take the test. An interactive portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Design tokens — Tailwind CSS default palette (industry standard)
+   Type: Inter (interface) + JetBrains Mono (figures, code)
+   ========================================================================== */
+:root{
+  /* Neutrals — Tailwind Slate */
+  --slate-50:#F8FAFC;
+  --slate-100:#F1F5F9;
+  --slate-200:#E2E8F0;
+  --slate-300:#CBD5E1;
+  --slate-400:#94A3B8;
+  --slate-500:#64748B;
+  --slate-600:#475569;
+  --slate-700:#334155;
+  --slate-800:#1E293B;
+  --slate-900:#0F172A;
+  --white:#FFFFFF;
+
+  /* Brand — Tailwind Blue */
+  --blue-50:#EFF6FF;
+  --blue-100:#DBEAFE;
+  --blue-200:#BFDBFE;
+  --blue-400:#60A5FA;
+  --blue-600:#2563EB;
+  --blue-700:#1D4ED8;
+  --blue-800:#1E40AF;
+
+  /* Semantic — Tailwind Emerald / Red / Amber */
+  --emerald-50:#ECFDF5;
+  --emerald-500:#10B981;
+  --emerald-600:#059669;
+  --red-50:#FEF2F2;
+  --red-400:#F87171;
+  --red-600:#DC2626;
+  --amber-400:#FBBF24;
+  --amber-500:#F59E0B;
+
+  /* Applied roles */
+  --bg:var(--slate-50);
+  --surface:var(--white);
+  --surface-alt:var(--slate-100);
+  --border:var(--slate-200);
+  --border-strong:var(--slate-300);
+  --text:var(--slate-900);
+  --text-body:var(--slate-700);
+  --text-muted:var(--slate-500);
+  --text-faint:var(--slate-400);
+  --brand:var(--blue-600);
+
+  /* Elevation — Tailwind shadow scale */
+  --shadow-sm:0 1px 2px 0 rgb(15 23 42 / 0.05);
+  --shadow:0 1px 3px 0 rgb(15 23 42 / 0.1), 0 1px 2px -1px rgb(15 23 42 / 0.1);
+  --shadow-md:0 4px 6px -1px rgb(15 23 42 / 0.1), 0 2px 4px -2px rgb(15 23 42 / 0.1);
+  --shadow-lg:0 10px 15px -3px rgb(15 23 42 / 0.1), 0 4px 6px -4px rgb(15 23 42 / 0.1);
+  --shadow-xl:0 20px 25px -5px rgb(15 23 42 / 0.1), 0 8px 10px -6px rgb(15 23 42 / 0.1);
+
+  /* Radius — Tailwind scale */
+  --r-sm:0.375rem;  /* 6px  */
+  --r:0.5rem;       /* 8px  */
+  --r-lg:0.75rem;   /* 12px */
+  --r-xl:1rem;      /* 16px */
+
+  --measure:68ch;
+}
+
+/* ========================= base ========================= */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text-body);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:1rem;line-height:1.65;font-feature-settings:"cv02","cv03","cv04","cv11";
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;color:var(--text);font-weight:700;letter-spacing:-0.025em;line-height:1.15}
+h1{font-size:clamp(2.5rem,5.6vw,4.25rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05}
+h2{font-size:clamp(1.75rem,3.4vw,2.75rem);letter-spacing:-0.03em}
+h3{font-size:1.375rem}
+p{margin:0 0 1.15rem;max-width:var(--measure)}
+a{color:var(--brand);text-underline-offset:3px}
+strong{font-weight:600;color:var(--text)}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:72rem;margin:0 auto;padding:0 1.5rem}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:var(--r-sm)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);
+}
+
+/* ========================= topbar ========================= */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgb(248 250 252 / .85);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+}
+.topbar-in{max-width:72rem;margin:0 auto;padding:.875rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.brand{font-size:1rem;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.brand i{font-style:normal;color:var(--brand)}
+.tnav{display:flex;gap:.125rem}
+.tnav a{
+  font-size:.8125rem;font-weight:500;color:var(--text-muted);text-decoration:none;
+  padding:.4375rem .75rem;border-radius:var(--r-sm);transition:color .15s,background-color .15s;
+}
+.tnav a:hover{color:var(--text);background:var(--slate-200)}
+.tnav a.on{color:var(--blue-700);background:var(--blue-50)}
+@media(max-width:900px){.tnav{display:none}}
+
+/* ========================= hero ========================= */
+.hero{padding:6rem 0 5rem}
+.hero .eyebrow{margin-bottom:1.5rem}
+.hero h1{max-width:16ch}
+.hero h1 .em{color:var(--brand)}
+.hero .sub{font-size:clamp(1.0625rem,1.6vw,1.25rem);color:var(--text-body);max-width:54ch;margin-top:1.5rem;line-height:1.6}
+
+.dial{
+  margin-top:2.75rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:1.5rem;max-width:34rem;
+}
+.dial-lab{font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.dial-row{display:flex;justify-content:space-between;align-items:flex-end;gap:1.25rem;margin-top:.625rem}
+.dial-val{font-family:"JetBrains Mono",monospace;font-size:clamp(1.875rem,4.4vw,2.5rem);font-weight:600;color:var(--red-600);transition:color .4s;letter-spacing:-.02em}
+.dial-val.done{color:var(--emerald-600)}
+.dial-note{font-size:.8125rem;color:var(--text-muted);text-align:right;max-width:20ch;line-height:1.45}
+.dial-bar{height:.375rem;background:var(--slate-200);border-radius:9999px;margin-top:1rem;overflow:hidden}
+.dial-bar i{display:block;height:100%;width:0;background:var(--brand);border-radius:9999px;transition:width 2.4s cubic-bezier(.4,0,.2,1)}
+.dial.go .dial-bar i{width:100%}
+.scroll-hint{margin-top:2.5rem;display:flex;align-items:center;gap:.625rem;font-size:.8125rem;font-weight:500;color:var(--text-faint)}
+.scroll-hint span{width:2rem;height:1px;background:var(--border-strong);animation:pull 2.4s ease-in-out infinite}
+@keyframes pull{0%,100%{transform:scaleX(1);opacity:.6}50%{transform:scaleX(1.5);opacity:1}}
+
+/* ========================= chapters ========================= */
+.ch{padding:5.5rem 0;border-top:1px solid var(--border)}
+.ch-head{margin-bottom:1.75rem}
+.ch-no{
+  display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;
+  letter-spacing:.1em;color:var(--blue-700);background:var(--blue-50);
+  border:1px solid var(--blue-100);border-radius:9999px;padding:.3125rem .75rem;margin-bottom:1rem;
+}
+.ch h2{max-width:22ch}
+.lede{font-size:1.1875rem;line-height:1.6;color:var(--text-body);max-width:62ch}
+
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ========================= origin ========================= */
+.origin{display:grid;grid-template-columns:1fr 19rem;gap:3.5rem;align-items:start}
+.frame{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:.75rem;box-shadow:var(--shadow-md)}
+.frame .inner{position:relative;aspect-ratio:4/5;background:var(--slate-100);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.frame img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:2}
+.frame .mono-init{position:absolute;z-index:1;font-size:3.5rem;font-weight:700;color:var(--slate-300)}
+.frame figcaption{display:flex;justify-content:space-between;gap:.75rem;padding:.75rem .25rem .125rem;font-family:"JetBrains Mono",monospace;font-size:.6875rem;letter-spacing:.06em;color:var(--text-faint)}
+.pull{
+  margin:2.25rem 0;padding:1.25rem 1.5rem;background:var(--blue-50);
+  border-left:3px solid var(--brand);border-radius:0 var(--r) var(--r) 0;
+  font-size:1.25rem;font-weight:600;line-height:1.45;color:var(--slate-900);letter-spacing:-.015em;max-width:34ch;
+}
+
+/* ========================= card primitives ========================= */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;background:var(--brand);color:var(--white);
+  border:1px solid var(--brand);border-radius:var(--r-sm);font-size:.875rem;font-weight:600;
+  padding:.5625rem 1rem;transition:background-color .15s,border-color .15s,box-shadow .15s;
+  box-shadow:var(--shadow-sm);text-decoration:none;
+}
+.btn:hover:not(:disabled){background:var(--blue-700);border-color:var(--blue-700)}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn.ghost{background:var(--white);color:var(--text-body);border-color:var(--border-strong)}
+.btn.ghost:hover:not(:disabled){background:var(--slate-100);color:var(--text)}
+
+/* ========================= consolidation machine ========================= */
+.machine{margin-top:2.25rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);overflow:hidden}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border);background:var(--slate-50);flex-wrap:wrap}
+.mh .t{font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)}
+.mh .t b{color:var(--blue-700);font-weight:600}
+.ents{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.ent{background:var(--surface);padding:1rem 1.125rem;transition:opacity .5s,transform .5s}
+.ent .en{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.125rem}
+.ent .ec{font-family:"JetBrains Mono",monospace;font-size:.6875rem;color:var(--text-faint);letter-spacing:.06em;margin-bottom:.75rem}
+.ent .l{display:flex;justify-content:space-between;gap:1rem;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--text-muted);padding:.1875rem 0}
+.ent .l s{color:var(--red-600);text-decoration-thickness:1px}
+.ent.merged{opacity:.35;transform:scale(.98)}
+.grp{border-top:1px solid var(--border);padding:1.375rem 1.25rem;display:none;background:var(--surface)}
+.grp.show{display:block;animation:fadein .5s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.grp h4{font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-700);margin-bottom:.875rem}
+.gl{display:grid;grid-template-columns:5.5rem 1fr auto;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--border);font-size:.9375rem;align-items:baseline}
+.gl .c{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--text-faint)}
+.gl .n{color:var(--text-body)}
+.gl .v{font-family:"JetBrains Mono",monospace;font-size:.9375rem;text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+.gl.tot{border-bottom:0;border-top:2px solid var(--slate-300);margin-top:.5rem;padding-top:.875rem}
+.gl.tot .n{font-weight:700;color:var(--text);font-size:1rem}
+.gl.tot .v{color:var(--emerald-600);font-weight:600;font-size:1rem}
+.mfoot{padding:.9375rem 1.25rem;border-top:1px solid var(--border);background:var(--slate-50);font-size:.875rem;color:var(--text-muted);min-height:3.25rem}
+.mfoot b{color:var(--emerald-600);font-weight:600}
+
+/* ========================= terminal ========================= */
+.term{margin-top:2.25rem;background:var(--slate-900);border:1px solid var(--slate-800);border-radius:var(--r-lg);box-shadow:var(--shadow-xl);overflow:hidden;font-family:"JetBrains Mono",monospace}
+.tbar{display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem;border-bottom:1px solid var(--slate-800);font-size:.6875rem;letter-spacing:.08em;color:var(--slate-400);background:#0B1120}
+.tdot{width:.5rem;height:.5rem;border-radius:9999px;background:var(--slate-600)}
+.tdot.live{background:var(--emerald-500);box-shadow:0 0 0 3px rgb(16 185 129 / .2)}
+.screen{padding:1.125rem 1.125rem .5rem;min-height:17.5rem;max-height:25rem;overflow-y:auto;font-size:.8125rem;line-height:1.75}
+.screen::-webkit-scrollbar{width:.375rem}
+.screen::-webkit-scrollbar-thumb{background:var(--slate-700);border-radius:9999px}
+.ln{margin-bottom:.125rem;white-space:pre-wrap;word-break:break-word;color:var(--slate-400)}
+.ln.u{color:var(--white)}
+.ln.u:before{content:"› ";color:var(--blue-400)}
+.ln.sys{color:var(--slate-400)}
+.ln.ok{color:var(--emerald-500)}
+.ln.err{color:var(--red-400)}
+.ln.warn{color:var(--amber-400)}
+.ln.note{
+  color:var(--slate-300);border-left:2px solid var(--slate-700);padding-left:.75rem;
+  margin:.625rem 0 .875rem;font-family:Inter,sans-serif;font-size:.875rem;line-height:1.6;
+}
+.cursor{display:inline-block;width:.5rem;height:.875rem;background:var(--blue-400);vertical-align:-2px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.prompts{border-top:1px solid var(--slate-800);padding:.875rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem;background:#0B1120}
+.pbtn{
+  background:var(--slate-800);border:1px solid var(--slate-700);color:var(--slate-300);
+  font-family:"JetBrains Mono",monospace;font-size:.75rem;padding:.5rem .75rem;
+  border-radius:var(--r-sm);text-align:left;transition:border-color .15s,color .15s,background-color .15s;
+}
+.pbtn:hover:not(:disabled){border-color:var(--blue-400);color:var(--white);background:#1B2A44}
+.pbtn:disabled{opacity:.4;cursor:not-allowed}
+.pbtn.again{border-color:var(--amber-500);color:var(--amber-400)}
+
+/* ========================= agents ========================= */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(12rem,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-top:2rem;box-shadow:var(--shadow-sm)}
+.ag{background:var(--surface);padding:1rem 1.125rem;transition:background-color .15s}
+.ag:hover{background:var(--blue-50)}
+.ag .n{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+.ag .d{font-family:"JetBrains Mono",monospace;font-size:.6875rem;color:var(--text-muted);line-height:1.55}
+
+/* ========================= findings ========================= */
+.fnd{display:grid;grid-template-columns:9rem 1fr;gap:1.5rem;padding:1.375rem 0;border-top:1px solid var(--border)}
+.fnd:last-of-type{border-bottom:1px solid var(--border)}
+.fnd .tag{font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.06em;color:var(--red-600);line-height:1.6}
+.fnd h4{font-size:1.0625rem;font-weight:600;margin-bottom:.375rem}
+.fnd p{margin:0;font-size:.9375rem;color:var(--text-body)}
+
+/* ========================= quiz ========================= */
+.quiz{margin-top:2.25rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);overflow:hidden}
+.qh{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;padding:.9375rem 1.25rem;border-bottom:1px solid var(--border);background:var(--slate-50);font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.qbody{padding:1.75rem 1.5rem}
+.qprompt{font-size:1.125rem;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:1.25rem;max-width:58ch;letter-spacing:-.01em}
+.qopts{display:flex;flex-direction:column;gap:.5rem;max-width:42rem}
+.qopt{
+  background:var(--white);border:1px solid var(--border-strong);color:var(--text-body);
+  border-radius:var(--r-sm);padding:.8125rem 1rem;font-size:.9375rem;line-height:1.5;text-align:left;
+  transition:border-color .15s,background-color .15s,box-shadow .15s;
+}
+.qopt:hover:not(:disabled){border-color:var(--brand);background:var(--blue-50);box-shadow:var(--shadow-sm)}
+.qopt:disabled{cursor:default}
+.qopt.right{border-color:var(--emerald-600);background:var(--emerald-50);color:var(--text);font-weight:500}
+.qopt.wrong{border-color:var(--red-600);background:var(--red-50)}
+.qexp{display:none;margin-top:1.125rem;padding:1rem 1.125rem;background:var(--blue-50);border:1px solid var(--blue-100);border-radius:var(--r);max-width:42rem}
+.qexp.show{display:block;animation:fadein .3s ease}
+.qexp b{display:block;font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.1em;color:var(--blue-700);margin-bottom:.375rem}
+.qexp p{margin:0;font-size:.9375rem;color:var(--text-body)}
+.qnav{display:flex;gap:.625rem;align-items:center;flex-wrap:wrap;margin-top:1.375rem}
+.qresult .big{font-family:"JetBrains Mono",monospace;font-size:3.5rem;font-weight:600;color:var(--brand);line-height:1;letter-spacing:-.03em}
+.qresult .vs{font-size:1rem;color:var(--text-body);margin-top:.875rem;max-width:54ch}
+
+/* ========================= capability ========================= */
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:0 3.5rem;margin-top:2rem}
+.cap h4{font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-700);margin:1.75rem 0 .625rem;padding-bottom:.5rem;border-bottom:1px solid var(--border-strong)}
+.cap ul{list-style:none;margin:0;padding:0}
+.cap li{display:flex;justify-content:space-between;gap:1rem;font-size:.9375rem;padding:.5rem 0;border-bottom:1px solid var(--border);color:var(--text-body)}
+.cap li i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--text-faint);white-space:nowrap}
+
+/* ========================= outcome ========================= */
+.out{margin-top:2rem;max-width:var(--measure);background:var(--emerald-50);border:1px solid #A7F3D0;border-radius:var(--r);padding:1.125rem 1.25rem}
+.out b{display:block;font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#047857;margin-bottom:.375rem}
+.out p{margin:0;font-size:.9375rem;color:var(--slate-700)}
+
+/* ========================= close ========================= */
+.close{padding:5.5rem 0 2rem;border-top:1px solid var(--border)}
+.close h2{font-size:clamp(2rem,4.6vw,3.25rem);max-width:16ch}
+.cts{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.ct{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:.875rem 1.25rem;text-decoration:none;color:var(--text);font-size:.9375rem;font-weight:500;
+  box-shadow:var(--shadow-sm);transition:border-color .15s,box-shadow .15s,transform .15s;
+}
+.ct:hover{border-color:var(--brand);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.ct b{display:block;font-family:"JetBrains Mono",monospace;font-size:.625rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.1875rem}
+.avail{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-top:2rem;box-shadow:var(--shadow-sm)}
+.avail div{background:var(--surface);padding:1rem 1.125rem}
+.avail b{display:block;font-family:"JetBrains Mono",monospace;font-size:.625rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.25rem}
+footer{margin-top:3.5rem;padding:1.375rem 0 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:"JetBrains Mono",monospace;font-size:.6875rem;color:var(--text-faint)}
+
+/* ========================= responsive ========================= */
+@media(max-width:1024px){
+  .origin{grid-template-columns:1fr;gap:2.25rem}
+  .frame{max-width:16rem}
+  .cap{grid-template-columns:1fr}
+  .ents{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .wrap{padding:0 1.25rem}
+  .hero{padding:3.5rem 0 3rem}
+  .ch{padding:3.75rem 0}
+  .ents{grid-template-columns:1fr}
+  .fnd{grid-template-columns:1fr;gap:.5rem}
+  .gl{grid-template-columns:4rem 1fr auto;gap:.75rem;font-size:.875rem}
+  .qresult .big{font-size:2.75rem}
+  .screen{min-height:15rem}
+  .qbody{padding:1.375rem 1.125rem}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">Swetha Ramar<i>.</i></div>
+    <nav class="tnav" aria-label="Chapters">
+      <a href="#origin">01 Origin</a>
+      <a href="#consolidate">02 Consolidate</a>
+      <a href="#build">03 Build</a>
+      <a href="#break">04 Break</a>
+      <a href="#test">05 Test</a>
+      <a href="#hire">Hire</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="eyebrow">BUSINESS ANALYST · ERP &amp; FINANCE SYSTEMS · CHENNAI</div>
+  <h1>Every number<br>has to be<br><span class="em">explained.</span></h1>
+  <p class="sub">I take six ledgers that disagree and make them agree. I build AI agents into finance systems, then I find out where they lie. This page is not a description of that work — you can run it yourself.</p>
+
+  <div class="dial" id="dial">
+    <div class="dial-lab">GROUP TRIAL BALANCE · VARIANCE</div>
+    <div class="dial-row">
+      <span class="dial-val mono" id="dialVal">4,182,660.00</span>
+      <span class="dial-note">Six entities. One chart of accounts. Nothing left unexplained.</span>
+    </div>
+    <div class="dial-bar"><i></i></div>
+  </div>
+
+  <div class="scroll-hint"><span></span> SCROLL TO BEGIN</div>
+</section>
+
+<!-- ============ 01 ORIGIN ============ -->
+<section class="ch reveal" id="origin">
+  <div class="ch-head"><span class="ch-no">CHAPTER 01</span><h2>I trained to close the books. Then I met the software that closes them.</h2></div>
+  <div class="origin">
+    <div>
+      <p class="lede">A B.Com in Professional Accounting teaches you what a trial balance has to prove. It does not teach you what happens when six companies each keep their own chart of accounts and someone needs a group number by Friday.</p>
+      <p>I moved into ERP consulting in 2024 and found the two halves fitted together. Configuration questions turn out to be accounting questions wearing different clothes. When a client asks whether a cost should post to the project or the department, no amount of system knowledge answers it. You have to know what the number is for.</p>
+      <p>Three implementations later, the pattern is consistent. The hard part is never the software. It is getting six people who each believe they are already right to agree on one definition, and then holding that definition when the schedule gets tight.</p>
+      <div class="pull">Configuration you can redo. A wrong opening balance follows you for years.</div>
+    </div>
+    <figure class="frame">
+      <div class="inner">
+        <span class="mono-init" aria-hidden="true">SR</span>
+        <img src="assets/photo.jpg" alt="Swetha Ramar" onerror="this.remove()">
+      </div>
+      <figcaption><span>SWETHA RAMAR</span><span>CHENNAI, IN</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 02 CONSOLIDATE ============ -->
+<section class="ch reveal" id="consolidate">
+  <div class="ch-head"><span class="ch-no">CHAPTER 02</span><h2>Six companies that had never seen each other's numbers</h2></div>
+  <p class="lede">Each entity closed its own books competently. Nobody could produce a consolidated position without a fortnight of spreadsheets, and by the time it arrived it described the past.</p>
+  <p>Below are the six ledgers as I found them. Different account codes for the same thing. Intercompany balances sitting on both sides. Run it and watch what has to happen before a group number means anything.</p>
+
+  <div class="machine">
+    <div class="mh">
+      <span class="t">CONSOLIDATION ENGINE · <b>6 ENTITIES</b> · FY CLOSE</span>
+      <span style="display:flex;gap:8px">
+        <button class="btn" id="runBtn">RUN CONSOLIDATION</button>
+        <button class="btn ghost" id="resetBtn" disabled>RESET</button>
+      </span>
+    </div>
+    <div class="ents" id="ents"></div>
+    <div class="grp" id="grp">
+      <h4>CONSOLIDATED GROUP LEDGER · SHARED CHART OF ACCOUNTS</h4>
+      <div id="glRows"></div>
+    </div>
+    <div class="mfoot" id="mfoot">Six separate ledgers. Nothing comparable yet.</div>
+  </div>
+
+  <div class="out">
+    <b>WHAT ACTUALLY HAPPENED</b>
+    <p>I designed the shared chart of accounts and the dimension structure that let each entity keep its own reporting detail without breaking group roll-up. Then I built reconciliation models that tested every migrated balance against source — not a sample, every balance. Go-live day was quiet because of the boring part, not the clever part.</p>
+  </div>
+</section>
+
+<!-- ============ 03 BUILD ============ -->
+<section class="ch reveal" id="build">
+  <div class="ch-head"><span class="ch-no">CHAPTER 03</span><h2>Teaching software to do the parts of accounting nobody enjoys</h2></div>
+  <p class="lede">In 2025 my team began building Copilot agents inside Business Central. I designed the functional processes, wrote the specifications, tested every one and documented what came out.</p>
+  <p>The interesting agents were never the ones that summarise a record. They were the ones that had to form a judgement and then act on it inside a live financial system.</p>
+
+  <div class="agrid">
+    <div class="ag"><div class="n">Inventory</div><div class="d">reorder point → consolidated PO<br>via MCP server</div></div>
+    <div class="ag"><div class="n">Sales Order</div><div class="d">customer email → quote → order</div></div>
+    <div class="ag"><div class="n">Payables</div><div class="d">invoice capture, posting, approval</div></div>
+    <div class="ag"><div class="n">Journal</div><div class="d">entry drafting from instruction</div></div>
+    <div class="ag"><div class="n">Master Data</div><div class="d">customer, vendor, item CRUD</div></div>
+    <div class="ag"><div class="n">Drop Shipment</div><div class="d">cross-document orchestration</div></div>
+    <div class="ag"><div class="n">Expense</div><div class="d">capture → approval routing</div></div>
+    <div class="ag"><div class="n">Project</div><div class="d">task and resource, via MCP</div></div>
+    <div class="ag"><div class="n">Purchase Quote</div><div class="d">quote → order conversion</div></div>
+    <div class="ag"><div class="n">Quality Inspection</div><div class="d">Power Automate → OneDrive → Teams</div></div>
+  </div>
+
+  <h3 style="margin:2.75rem 0 .75rem">The one I would show you first</h3>
+  <p>The Inventory agent runs over the item list, filters to items replenished by purchase, finds every item below its reorder point, and raises purchase orders using the vendor on the item card and the reorder quantity. Where several shortfall items share a vendor, it consolidates them onto one purchase order rather than raising four. Then it returns the URL of what it created, so a human can go and check.</p>
+  <p>That last detail matters more than the automation. An agent that acts inside a ledger and does not tell you exactly what it did is a liability, whatever time it saves.</p>
+</section>
+
+<!-- ============ 04 BREAK ============ -->
+<section class="ch reveal" id="break">
+  <div class="ch-head"><span class="ch-no">CHAPTER 04</span><h2>Then I wrote down everywhere the agents failed</h2></div>
+  <p class="lede">Building them was the assignment. Documenting where they could not be trusted was not. I did it because we were about to put these in front of finance users, and finance users do not get to be surprised by their own ledger.</p>
+  <p>The terminal below is a faithful reconstruction of what I recorded in testing. Every response is a real failure mode. Try the last one twice.</p>
+
+  <div class="term">
+    <div class="tbar"><span class="tdot live"></span> MASTER DATA AGENT · BUSINESS CENTRAL SANDBOX · SESSION LOG</div>
+    <div class="screen" id="screen" role="log" aria-live="polite">
+      <div class="ln sys">Agent initialised. Master data scope: customer, vendor, item.</div>
+      <div class="ln sys">Awaiting instruction<span class="cursor"></span></div>
+    </div>
+    <div class="prompts" id="prompts"></div>
+  </div>
+
+  <div style="margin-top:52px">
+    <div class="fnd">
+      <span class="tag">FINDING 01<br>PROMPT BRITTLENESS</span>
+      <div><h4>It only worked when the prompt was phrased one exact way</h4><p>Any deviation failed. Natural phrasing failed. Which means it was not usable by the people it was built for — a demo, not a tool.</p></div>
+    </div>
+    <div class="fnd">
+      <span class="tag">FINDING 02<br>SILENT SUCCESS</span>
+      <div><h4>It reported an error while the record updated correctly</h4><p>The write succeeded in Business Central and the interface said it had not. In a finance system that is worse than plain failure: the user retries, and now you have two.</p></div>
+    </div>
+    <div class="fnd">
+      <span class="tag">FINDING 03<br>NON-DETERMINISM</span>
+      <div><h4>Identical requests produced different outcomes</h4><p>The same correctly formed update ran cleanly on one attempt and failed on the next with nothing changed. You cannot write a control around behaviour that will not repeat.</p></div>
+    </div>
+    <div class="fnd">
+      <span class="tag">FINDING 04<br>CONSOLIDATION INSTABILITY</span>
+      <div><h4>Merging separate agents into one made all of them less reliable</h4><p>Individually the customer, vendor and item agents behaved. Combined into a single master agent, update and delete began routing to the wrong flow.</p></div>
+    </div>
+  </div>
+
+  <div class="pull">A demo shows you what a system does when it works. Somebody has to write down what it does when it doesn't.</div>
+
+  <div class="out">
+    <b>WHY THIS CHAPTER EXISTS</b>
+    <p>I closed that report with a plain assessment: capable of basic operations, not yet dependable for production finance use, with named reasons. It was a less comfortable conclusion than the demo. It was also the only useful one. Every analyst can list what they built — this is the work I would rather be judged on.</p>
+  </div>
+</section>
+
+<!-- ============ 05 TEST ============ -->
+<section class="ch reveal" id="test">
+  <div class="ch-head"><span class="ch-no">CHAPTER 05</span><h2>I scored myself before an interviewer could</h2></div>
+  <p class="lede">I wrote a sixty-question diagnostic across the five areas business analyst interviews actually test, sat it closed-book in sixty minutes, and marked it against a published key. I scored 100 of 105.</p>
+  <p>It is a self-administered diagnostic, not a certification from an accredited body, and I would rather say that plainly than have it assumed. Here are five of the sixty. Same questions, same answers, no clues.</p>
+
+  <div class="quiz">
+    <div class="qh"><span id="qCount">QUESTION 1 OF 5</span><span id="qScore">SCORE 0</span></div>
+    <div class="qbody" id="qBody"></div>
+  </div>
+
+  <div class="out">
+    <b>THE NUMBER WORTH TALKING ABOUT IS 17</b>
+    <p>Delivery and governance was my weakest pillar at 17 of 21, and two of my three wrong answers sit in it — both on testing discipline rather than delivery judgement. I missed what regression testing confirms, and I left the severity-versus-priority question blank when the clock ran out. A perfect score would tell you nothing about me. Three visible gaps tell you where I am, and that I will say so without being asked.</p>
+  </div>
+</section>
+
+<!-- ============ 06 CAPABILITY ============ -->
+<section class="ch reveal" id="capability">
+  <div class="ch-head"><span class="ch-no">CHAPTER 06</span><h2>Statement of capability</h2></div>
+  <div class="cap">
+    <div>
+      <h4>BUSINESS ANALYSIS</h4>
+      <ul>
+        <li>Requirement elicitation and workshops <i>daily</i></li>
+        <li>Business and functional requirement documents <i>authored</i></li>
+        <li>As-is and to-be process mapping <i>authored</i></li>
+        <li>Gap analysis and solution options <i>authored</i></li>
+        <li>Test case design and functional testing <i>authored</i></li>
+        <li>UAT coordination and defect triage <i>3 projects</i></li>
+        <li>User manuals and business user training <i>authored</i></li>
+      </ul>
+      <h4>FINANCE DOMAIN</h4>
+      <ul>
+        <li>Record to report <i>strong</i></li>
+        <li>Procure to pay <i>strong</i></li>
+        <li>Order to cash <i>strong</i></li>
+        <li>Fixed asset accounting <i>strong</i></li>
+        <li>Intercompany consolidation <i>6 entities</i></li>
+        <li>Bank reconciliation and cash management <i>strong</i></li>
+        <li>Period close and group reporting <i>working</i></li>
+      </ul>
+    </div>
+    <div>
+      <h4>SYSTEMS</h4>
+      <ul>
+        <li>Dynamics 365 Business Central <i>MB-800</i></li>
+        <li>Dynamics 365 Finance &amp; Operations <i>working</i></li>
+        <li>Dynamics 365 CRM (Sales) <i>working</i></li>
+        <li>Continia Document Capture <i>configured</i></li>
+        <li>Subscription and recurring billing <i>configured</i></li>
+        <li>Cross-tenant environment migration <i>delivered</i></li>
+      </ul>
+      <h4>DATA &amp; AUTOMATION</h4>
+      <ul>
+        <li>Excel — reconciliation models, lookups, pivots <i>advanced</i></li>
+        <li>SQL — joins, grouping, aggregation <i>intermediate</i></li>
+        <li>Power BI <i>learning</i></li>
+        <li>Power Automate <i>working</i></li>
+        <li>Copilot Studio agents <i>~20 built</i></li>
+        <li>MCP-based agent integration <i>working</i></li>
+        <li>ACH / NACHA payment file mapping <i>delivered</i></li>
+      </ul>
+      <h4>CREDENTIALS</h4>
+      <ul>
+        <li>MB-800 Business Central Functional Consultant <i>Microsoft</i></li>
+        <li>AB-730 AI Business Professional <i>Microsoft</i></li>
+        <li>B.Com Professional Accounting <i>CGPA 7.7</i></li>
+        <li>PGDM, Great Lakes Institute of Management <i>in progress</i></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSE ============ -->
+<section class="close reveal" id="hire">
+  <h2>I am looking for business analyst work.</h2>
+  <p class="lede" style="margin-top:1.5rem">Ideally somewhere the analyst is expected to understand the domain, not relay requirements between two rooms. ERP, finance systems or product — the constant is that somebody has to know what the number means.</p>
+  <div class="cts">
+    <a class="ct" href="mailto:swetharamar0503@gmail.com"><b>EMAIL</b>swetharamar0503@gmail.com</a>
+    <a class="ct" href="tel:+919363075030"><b>PHONE</b>+91 93630 75030</a>
+    <a class="ct" href="https://www.linkedin.com/in/swetha-ramar" rel="me"><b>LINKEDIN</b>/in/swetha-ramar</a>
+  </div>
+  <div class="avail">
+    <div><b>LOCATIONS</b>Chennai · Bengaluru · Hyderabad · Pune</div>
+    <div><b>ARRANGEMENT</b>Remote, hybrid or onsite</div>
+    <div><b>NOTICE</b>Immediate</div>
+  </div>
+</section>
+
+<footer>
+  <span>SWETHA RAMAR · BUSINESS ANALYST · CHENNAI, INDIA</span>
+  <span>CLIENT NAMES WITHHELD · NO CLIENT MATERIAL REPRODUCED</span>
+</footer>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- reveal on scroll ---------- */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+},{threshold:.08, rootMargin:"0px 0px -60px 0px"});
+document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+/* ---------- nav active state ---------- */
+var navLinks = [].slice.call(document.querySelectorAll(".tnav a"));
+var secs = navLinks.map(function(a){ return document.querySelector(a.getAttribute("href")); });
+var navIo = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      var i = secs.indexOf(e.target);
+      navLinks.forEach(function(a,j){ a.classList.toggle("on", j===i); });
+    }
+  });
+},{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(function(s){ if(s) navIo.observe(s); });
+
+/* ---------- hero variance dial ---------- */
+var dial=document.getElementById("dial"), dv=document.getElementById("dialVal");
+function fmt(n){ return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function runDial(){
+  dial.classList.add("go");
+  if(RM){ dv.textContent="0.00"; dv.classList.add("done"); return; }
+  var start=4182660, t0=null, dur=2400;
+  function step(ts){
+    if(!t0) t0=ts;
+    var p=Math.min((ts-t0)/dur,1);
+    var e=1-Math.pow(1-p,3);
+    dv.textContent=fmt(start*(1-e));
+    if(p<1){ requestAnimationFrame(step); }
+    else { dv.textContent="0.00"; dv.classList.add("done"); }
+  }
+  requestAnimationFrame(step);
+}
+setTimeout(runDial,650);
+
+/* ================= CONSOLIDATION ENGINE ================= */
+var ENTITIES=[
+  {n:"Aurora Trading Pvt Ltd",c:"ENT-01 · INR",rows:[["4001 Sales",  "88,40,200"],["5100 COGS","51,20,900"],["1300 IC Recv — ENT-04","6,10,000"]],ic:2},
+  {n:"Meridian Services",     c:"ENT-02 · INR",rows:[["400 Revenue","42,15,600"],["510 Direct cost","24,80,100"],["2210 Accruals","3,44,000"]],ic:-1},
+  {n:"Northwind Logistics",   c:"ENT-03 · AED",rows:[["R-100 Freight income","31,08,450"],["C-200 Fleet cost","19,62,700"],["1305 IC Recv — ENT-05","2,80,000"]],ic:2},
+  {n:"Calyx Manufacturing",   c:"ENT-04 · INR",rows:[["4000 Net sales","1,04,60,000"],["5000 Materials","62,30,500"],["2300 IC Pay — ENT-01","6,10,000"]],ic:2},
+  {n:"Sable Retail",          c:"ENT-05 · INR",rows:[["41000 Store revenue","36,72,300"],["51000 Purchases","22,10,800"],["23050 IC Pay — ENT-03","2,80,000"]],ic:2},
+  {n:"Vantage Holdings",      c:"ENT-06 · INR",rows:[["4900 Other income","9,84,150"],["6100 Admin expense","14,05,600"],["1400 Investments","48,00,000"]],ic:-1}
+];
+var GROUP=[
+  ["4000","Revenue — all entities","3,12,80,700"],
+  ["5000","Cost of sales","1,80,05,000"],
+  ["6000","Operating expenses","14,05,600"],
+  ["1300","Intercompany — eliminated","0.00"],
+  ["1400","Investments","48,00,000"],
+  ["2200","Accruals and payables","3,44,000"]
+];
+var entsEl=document.getElementById("ents"), grpEl=document.getElementById("grp"),
+    glEl=document.getElementById("glRows"), foot=document.getElementById("mfoot"),
+    runBtn=document.getElementById("runBtn"), resetBtn=document.getElementById("resetBtn");
+
+function paintEntities(){
+  entsEl.innerHTML="";
+  ENTITIES.forEach(function(e){
+    var d=document.createElement("div"); d.className="ent";
+    var h='<div class="en">'+e.n+'</div><div class="ec">'+e.c+'</div>';
+    e.rows.forEach(function(r,i){
+      h+='<div class="l"><span'+(i===e.ic?' data-ic="1"':'')+'>'+r[0]+'</span><span>'+r[1]+'</span></div>';
+    });
+    d.innerHTML=h; entsEl.appendChild(d);
+  });
+}
+paintEntities();
+
+function runConsolidation(){
+  runBtn.disabled=true;
+  var stages=[
+    [0,   "Reading six entity ledgers…"],
+    [500, "Mapping local account codes to the shared chart of accounts…"],
+    [1150,"Translating AED balances at closing rate…"],
+    [1750,"Identifying intercompany balances…"],
+    [2350,"Eliminating intercompany receivables against payables…"],
+    [3050,"Building consolidated group ledger…"]
+  ];
+  var d = RM ? 0 : 1;
+  stages.forEach(function(s){ setTimeout(function(){ foot.textContent=s[1]; }, s[0]*d); });
+
+  setTimeout(function(){
+    entsEl.querySelectorAll('[data-ic]').forEach(function(el){
+      el.innerHTML='<s>'+el.textContent+'</s>';
+    });
+  }, 2400*d);
+
+  setTimeout(function(){
+    entsEl.querySelectorAll(".ent").forEach(function(el,i){
+      setTimeout(function(){ el.classList.add("merged"); }, i*70*d);
+    });
+  }, 2900*d);
+
+  setTimeout(function(){
+    glEl.innerHTML="";
+    GROUP.forEach(function(g,i){
+      var r=document.createElement("div"); r.className="gl";
+      r.innerHTML='<span class="c">'+g[0]+'</span><span class="n">'+g[1]+'</span><span class="v">'+g[2]+'</span>';
+      r.style.opacity="0";
+      glEl.appendChild(r);
+      setTimeout(function(){ r.style.transition="opacity .4s"; r.style.opacity="1"; }, i*110*d);
+    });
+    var t=document.createElement("div"); t.className="gl tot";
+    t.innerHTML='<span class="c"></span><span class="n">Group variance</span><span class="v">0.00</span>';
+    t.style.opacity="0"; glEl.appendChild(t);
+    setTimeout(function(){ t.style.transition="opacity .5s"; t.style.opacity="1"; }, 800*d);
+    grpEl.classList.add("show");
+    foot.innerHTML='<b>Consolidated.</b> Six charts of accounts mapped to one, currency translated, intercompany balances eliminated on both sides. Group variance 0.00 — every balance explained.';
+    resetBtn.disabled=false;
+  }, 3600*d);
+}
+function resetMachine(){
+  grpEl.classList.remove("show");
+  paintEntities();
+  foot.textContent="Six separate ledgers. Nothing comparable yet.";
+  runBtn.disabled=false; resetBtn.disabled=true;
+}
+runBtn.addEventListener("click",runConsolidation);
+resetBtn.addEventListener("click",resetMachine);
+
+/* ================= AGENT TERMINAL ================= */
+var screen=document.getElementById("screen"), promptsEl=document.getElementById("prompts");
+var runCount={};
+var CMDS=[
+  {id:"nat", label:"“can you add a new customer for me”",
+   seq:[["u","can you add a new customer for me"],
+        ["sys","Parsing instruction…"],
+        ["err","ERROR · Instruction structure not recognised. Expected: CREATE CUSTOMER | Name=<value> | Type=<value>"],
+        ["note","Finding 01. It only responded to one exact phrasing. Natural language — the way an actual accounts clerk would ask — failed every time. An agent that requires its user to memorise a syntax is not an agent, it is a command line with extra steps."]]},
+  {id:"ok", label:"CREATE CUSTOMER | Name=Calyx Ltd | Type=Company",
+   seq:[["u","CREATE CUSTOMER | Name=Calyx Ltd | Type=Company"],
+        ["sys","Validating fields…"],
+        ["sys","POST /api/v2.0/customers"],
+        ["ok","SUCCESS · Customer C-10428 created. Name: Calyx Ltd."],
+        ["note","Structured exactly as specified, it works. This is the demo everybody sees."]]},
+  {id:"upd", label:"UPDATE CUSTOMER | No=C-10428 | Terms=NET30",
+   seq:[["u","UPDATE CUSTOMER | No=C-10428 | Terms=NET30"],
+        ["sys","Resolving record C-10428…"],
+        ["err","ERROR · Update failed. No changes were committed."],
+        ["warn","⚠ VERIFIED IN BUSINESS CENTRAL: C-10428 payment terms = NET30. The update DID commit."],
+        ["note","Finding 02. The interface reported failure while the write succeeded. This is the dangerous one. The user believes nothing happened, retries, and now the ledger has two of something it should have one of."]]},
+  {id:"del", label:"DELETE VENDOR | No=V-2091", again:true,
+   seq:[["u","DELETE VENDOR | No=V-2091"],
+        ["sys","Routing to master data flow…"],
+        ["ok","SUCCESS · Vendor V-2091 deleted."],
+        ["note","Ran cleanly. Now press it a second time and watch what happens with nothing changed."]],
+   seq2:[["u","DELETE VENDOR | No=V-2091"],
+        ["sys","Routing to master data flow…"],
+        ["err","ERROR · Flow terminated unexpectedly. Action did not complete."],
+        ["note","Finding 03. Same instruction. Same record. Same session. Different outcome. You cannot design a control around behaviour that will not repeat — and in a finance system, a control you cannot design is a risk you cannot sign off."]],
+   seq3:[["u","DELETE VENDOR | No=V-2091"],
+        ["sys","Routing to master data flow…"],
+        ["warn","PARTIAL · Vendor record removed. Linked ledger entries not reassigned."],
+        ["note","A third result from the same command. This is why the report I wrote concluded: capable of basic operations, not dependable for production finance use."]]}
+];
+
+function line(cls,txt){
+  var d=document.createElement("div"); d.className="ln "+cls; d.textContent=txt;
+  screen.appendChild(d); screen.scrollTop=screen.scrollHeight; return d;
+}
+function play(seq,done){
+  var i=0;
+  (function next(){
+    if(i>=seq.length){ if(done) done(); return; }
+    var s=seq[i++];
+    line(s[0],s[1]);
+    setTimeout(next, RM?0:(s[0]==="note"?60:340));
+  })();
+}
+var busy=false;
+function fire(cmd,btn){
+  if(busy) return; busy=true;
+  promptsEl.querySelectorAll("button").forEach(function(b){ b.disabled=true; });
+  var c=runCount[cmd.id]=(runCount[cmd.id]||0)+1;
+  var seq=cmd.seq;
+  if(cmd.again && c===2) seq=cmd.seq2;
+  if(cmd.again && c>=3)  seq=cmd.seq3;
+  screen.querySelectorAll(".cursor").forEach(function(x){ x.remove(); });
+  play(seq,function(){
+    busy=false;
+    promptsEl.querySelectorAll("button").forEach(function(b){ b.disabled=false; });
+    if(cmd.again && c===1) btn.classList.add("again"), btn.textContent="↻ RUN IT AGAIN — same command";
+    if(cmd.again && c===2) btn.textContent="↻ ONCE MORE";
+    if(cmd.again && c>=3)  btn.disabled=true, btn.textContent="✓ THREE RESULTS, ONE COMMAND";
+  });
+}
+CMDS.forEach(function(cmd){
+  var b=document.createElement("button"); b.className="pbtn"; b.textContent=cmd.label;
+  b.addEventListener("click",function(){ fire(cmd,b); });
+  promptsEl.appendChild(b);
+});
+
+/* ================= QUIZ ================= */
+var QS=[
+ {q:'A client says: "The invoice approval screen must load in under 2 seconds." How is this classified?',
+  o:["Functional requirement","Non-functional requirement","Business requirement","Stakeholder requirement"],a:1,
+  e:"Non-functional requirements describe how well a system performs, not what it does. Performance, security, availability and usability all sit here. A functional requirement would be “route invoices above ₹5 lakh to the CFO.”"},
+ {q:"You wrote: LEFT JOIN orders o ON c.id = o.customer_id WHERE o.status = 'Open'. You wanted every customer, including those with no orders. What actually happens?",
+  o:["Every customer, with nulls where there are no open orders","Only customers with at least one open order — the LEFT JOIN silently becomes an INNER JOIN","An error, because status may be null","Every customer and every order regardless of status"],a:1,
+  e:"WHERE filters after the join. Unmatched rows carry a NULL status, and NULL = 'Open' is not true, so they are discarded. The fix is to move the condition into the ON clause. This is the most common SQL trap in analyst interviews."},
+ {q:"During UAT, who owns the decision that an issue is a genuine defect rather than a chargeable change request?",
+  o:["The development team, since they know what was built","The business user who raised it","The BA, by testing the reported behaviour against the signed-off requirement","The project manager, based on schedule impact"],a:2,
+  e:"If behaviour deviates from the signed-off requirement it is a defect and gets fixed free. If the requirement was met but the user now wants something different, it is chargeable change. The BA owns the baseline, so the BA makes the call — with direct commercial consequences."},
+ {q:"Which of these is LOW severity but HIGH priority?",
+  o:["The system crashes when posting a journal","The company name is misspelt on every customer-facing invoice","A rarely used report runs slowly","A tooltip shows wrong text on an internal admin screen"],a:1,
+  e:"Severity measures technical impact; priority measures business urgency. A cosmetic error seen by every customer is trivially severe and commercially urgent. This is one of the three I got wrong — I ran out of clock and left it blank."},
+ {q:"A sponsor asks you to leave a slipped milestone out of the steering committee pack. You should:",
+  o:["Comply — the sponsor owns the reporting","Comply, but note it privately in your own file","Decline, explain the report must reflect status accurately, and offer to present it alongside a recovery plan","Report it anyway without telling the sponsor"],a:2,
+  e:"Accuracy is not negotiable, but the analyst is not a whistleblower by default. The professional move is to refuse the omission while giving the sponsor a defensible way to present it."}
+];
+var qi=0, qscore=0, answered=false;
+var qBody=document.getElementById("qBody"), qCount=document.getElementById("qCount"), qScore=document.getElementById("qScore");
+
+function renderQ(){
+  var Q=QS[qi]; answered=false;
+  qCount.textContent="QUESTION "+(qi+1)+" OF "+QS.length;
+  qScore.textContent="SCORE "+qscore;
+  var h='<div class="qprompt">'+Q.q+'</div><div class="qopts">';
+  Q.o.forEach(function(o,i){ h+='<button class="qopt" data-i="'+i+'">'+o+'</button>'; });
+  h+='</div><div class="qexp" id="qexp"><b>WHY</b><p>'+Q.e+'</p></div><div class="qnav" id="qnav"></div>';
+  qBody.innerHTML=h;
+  qBody.querySelectorAll(".qopt").forEach(function(b){
+    b.addEventListener("click",function(){ answer(parseInt(b.dataset.i,10)); });
+  });
+}
+function answer(i){
+  if(answered) return; answered=true;
+  var Q=QS[qi];
+  var opts=qBody.querySelectorAll(".qopt");
+  opts.forEach(function(b,j){
+    b.disabled=true;
+    if(j===Q.a) b.classList.add("right");
+    else if(j===i) b.classList.add("wrong");
+  });
+  if(i===Q.a) qscore++;
+  qScore.textContent="SCORE "+qscore;
+  document.getElementById("qexp").classList.add("show");
+  var nav=document.getElementById("qnav");
+  var b=document.createElement("button"); b.className="btn";
+  b.textContent = qi<QS.length-1 ? "NEXT QUESTION" : "SEE RESULT";
+  b.addEventListener("click",function(){ qi++; qi<QS.length ? renderQ() : renderResult(); });
+  nav.appendChild(b);
+}
+function renderResult(){
+  qCount.textContent="COMPLETE"; qScore.textContent="SCORE "+qscore+" OF "+QS.length;
+  var msg = qscore===5 ? "Five from five. You would have enjoyed the other fifty-five."
+          : qscore>=3 ? "Solid. These five are drawn from across all sixty, so a strong showing here is a real signal."
+          : "These are deliberately unkind questions — the SQL one catches most people, and the defect classification one caught me.";
+  qBody.innerHTML='<div class="qresult"><div class="big">'+qscore+' / 5</div>'+
+    '<div class="vs">'+msg+' I scored 57 of 60 on the full version, 100 marks of 105, with full credit in three of five pillars. The whole question bank and my marked scorecard are available on request.</div>'+
+    '<div class="qnav"><button class="btn ghost" id="qAgain">TAKE IT AGAIN</button>'+
+    '<a class="btn" style="text-decoration:none" href="mailto:swetharamar0503@gmail.com?subject=Question%20bank">ASK FOR THE FULL SET</a></div></div>';
+  document.getElementById("qAgain").addEventListener("click",function(){ qi=0;qscore=0;renderQ(); });
+}
+renderQ();
+
+})();
+</script>
+</body>
+</html>
